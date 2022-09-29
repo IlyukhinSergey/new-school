@@ -74,5 +74,5 @@ function task3()
       'имени Masha = ' . $masha . '<br>' .
       'имени Ivan = ' . $ivan . '<br>' .
       'имени Sidr = ' . $sidr . '<br>' .
-      'Общий возраст составляет - ' . $allAge;
+      'Общий возраст составляет - ' . $allAge / sizeof($users);
 }
