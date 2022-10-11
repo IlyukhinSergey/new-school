@@ -1,8 +1,11 @@
 <?php
 
 $name = 'Сергей';
-$age = '34';
+$age = '30';
 
-echo 'Меня зовут ' . $name . "<br>";
-echo 'Мне ' . $age . ' лет' . '<br>';
+$format1 = 'Меня зовут %s <br>';
+$format2 = 'Мне %d лет <br>';
+
+echo sprintf($format1, $name);
+echo sprintf($format2, $age);
 echo "“!|/’”\\" . '<br>';

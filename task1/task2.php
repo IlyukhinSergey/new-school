@@ -6,4 +6,5 @@ $drawPencil = 40;
 
 $drawPaints = $pictures - ($drawFeltPen + $drawPencil);
 
-echo 'Было выполнено красками ' . $drawPaints . ' рисунков';
+$format = 'Было выполнено красками %d рисунков';
+echo sprintf($format, $drawPaints);
