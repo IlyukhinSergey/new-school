@@ -2,10 +2,17 @@
 
 namespace App\Controller;
 
-class User
+use Base\AbstractController;
+
+class User extends AbstractController
 {
 
-    public function indexAction()
+    public function loginAction()
+    {
+        echo __METHOD__;
+    }
+
+    public function registerAction()
     {
         echo __METHOD__;
     }
