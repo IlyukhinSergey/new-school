@@ -18,39 +18,20 @@ class Route
 
     private function process()
     {
-        $parts = parse_url($_SERVER['REQUEST_URI']); // '/new-school/task5/html/'
-        $path = $parts['path'];
+        if (!$this->processed) {
+            $parts = parse_url($_SERVER['REQUEST_URI']); // '/new-school/task5/html/'
+            $path = $parts['path'];
 
-        if (($rout = $this->routes[$path] ?? null) !== null) {
-            $this->controllerName = $rout[0];
-            $this->actionName = $rout[1];
-        } else {
-            $parts = explode('/', $path);
-            $this->controllerName = '\\App\\Controller\\' . ucfirst(strtolower($parts[4]));
-            $this->actionName = strtolower($parts[5] ?? 'Index');
-
-            if (!class_exists($this->controllerName)) { //проверка есть ли такой контроллер
-                throw new RouteException('Can\'t find Controller: ' . $this->controllerName);
+            if (($rout = $this->routes[$path] ?? null) !== null) {
+                $this->controllerName = $rout[0];
+                $this->actionName = $rout[1];
+            } else {
+                $parts = explode('/', $path);
+                $this->controllerName = '\\App\\Controller\\' . ucfirst(strtolower($parts[4]));
+                $this->actionName = strtolower($parts[5] ?? 'Index');
             }
         }
-
-//        switch ($parts['path']) {
-//            case '/new-school/task5/html/user/login':
-//                $user = new User();
-//                $user->loginAction();
-//                break;
-//            case '/new-school/task5/html/user/register':
-//                $user = new User();
-//                $user->registerAction();
-//                break;
-//            case '/new-school/task5/html/blog/index':
-//            case '/new-school/task5/html/blog':
-//                $user = new Blog();
-//                $user->indexAction();
-//                break;
-//            default:
-//                header("HTTP/1.0 404 Nit Found");
-//        }
+        $this->processed = true;
     }
 
     public function addRoute($path, $controllerName, $actionName)
