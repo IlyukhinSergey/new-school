@@ -24,6 +24,14 @@ class Route
         if (($rout = $this->routes[$path] ?? null) !== null) {
             $this->controllerName = $rout[0];
             $this->actionName = $rout[1];
+        } else {
+            $parts = explode('/', $path);
+            $this->controllerName = '\\App\\Controller\\' . ucfirst(strtolower($parts[4]));
+            $this->actionName = strtolower($parts[5] ?? 'Index');
+
+            if (!class_exists($this->controllerName)) { //проверка есть ли такой контроллер
+                throw new RouteException('Can\'t find Controller: ' . $this->controllerName);
+            }
         }
 
 //        switch ($parts['path']) {
