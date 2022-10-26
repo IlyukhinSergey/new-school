@@ -1,7 +1,7 @@
 <?php
 
 use Base\Application;
-use Base\RouteException;
+require '../src/config.php';
 
 include '../vendor/autoload.php';
 
