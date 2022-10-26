@@ -1,14 +1,15 @@
 <?php
 require '../vendor/autoload.php';
 
-use App\Controller\Auth\Login;
-use App\Controller\User;
-use Base\Application;
+$parts = parse_url($_SERVER['REQUEST_URI']); // '/new-school/task5/html/'
 
-$app = new Application();
-
-$user = new User();
-$user->indexAction();
-
-$login = new Login();
-$login->indexAction();
+switch ($parts['path']){
+    case '/new-school/task5/html/user/login':
+        echo 'Login user';
+        break;
+    case '/new-school/task5/html/user/register':
+        echo 'Register user';
+        break;
+    default:
+        header("HTTP/1.0 404 Nit Found");
+}
