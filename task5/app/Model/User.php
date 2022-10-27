@@ -147,6 +147,20 @@ class User extends AbstractModel
         return new self($data);
     }
 
+    public static function getByName(string $name): ?self
+    {
+        $db = Db::getInstance();
+        $select = "SELECT * FROM `users` WHERE `name` = :name";
+        $param = ['name' => $name];
+        $data = $db->fetchOne($select, __METHOD__, $param);
+
+        if (!$data) {
+            return null;
+        }
+
+        return new self($data);
+    }
+
     public static function getPasswordHash(string $password)
     {
         return sha1('ghghhgg' . $password);

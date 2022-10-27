@@ -3,6 +3,7 @@
 namespace Base;
 
 use App\Controller\User;
+use App\Model\User as UserModel;
 
 class Application
 {
@@ -25,12 +26,14 @@ class Application
     public function run()
     {
         try {
+            session_start();
             $this->addRoute();
             $this->initController();
             $this->initAction();
 
             $view = new View();
             $this->controller->setView($view);
+            $this->initUser();
 
             $content = $this->controller->{$this->actionName}();
 
@@ -44,6 +47,18 @@ class Application
         }
     }
 
+    private function initUser()
+    {
+        $id = $_SESSION['id'] ?? null;
+
+        if ($id) {
+            $user = UserModel::getById($id);
+            if ($user) {
+                $this->controller->setUser($user);
+            }
+        }
+    }
+
     private function addRoute()
     {
         /** @uses \App\Controller\User::loginAction() */
@@ -52,7 +67,8 @@ class Application
         ///** @uses \App\Controller\User::registerAction() */
         //$this->route->addRoute('/new-school/task5/html/user/register', \App\Controller\User::class, 'register');
         /** @uses \App\Controller\Blog::indexAction() */
-        $this->route->addRoute('/new-school/task5/html/blog', \App\Controller\Blog::class, 'index');
+        $this->route->addRoute('/new-school/task5/html/blog',
+          \App\Controller\Blog::class, 'index');
         //$this->route->addRoute('/new-school/task5/html/blog/index', \App\Controller\Blog::class, 'index');
     }
 

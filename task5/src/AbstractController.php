@@ -2,23 +2,30 @@
 
 namespace Base;
 
+use App\Model\User;
+
 abstract class AbstractController
 {
 
     /** @var \Base\View */
     protected $view;
 
+    /** @var User */
+    protected $user;
+
     protected function redirect(string $url)
     {
         throw new RedirectException($url);
     }
 
-    /**
-     * @param  \Base\View  $view
-     */
     public function setView(View $view): void
     {
         $this->view = $view;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Model\User as UserModel;
 use Base\AbstractController;
 
 class Blog extends AbstractController
@@ -9,9 +10,12 @@ class Blog extends AbstractController
 
     public function indexAction()
     {
-        if(isset ($_GET['redirect'])){
+        if(!$this->user){
             $this->redirect('/new-school/task5/html/user/register');
         }
-        echo __METHOD__;
+
+        return $this->view->render('Blog/index.phtml', [
+          'user' => $this->user,
+        ]);
     }
 }

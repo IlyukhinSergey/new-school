@@ -10,23 +10,80 @@ class User extends AbstractController
 
     public function loginAction()
     {
-        echo __METHOD__;
+        if (isset($_POST['name'])) {
+            $name = trim($_POST['name']);
+
+            if ($name) {
+                $password = $_POST['password'];
+                $user = UserModel::getByName($name);
+
+                if (!$user) {
+                    $this->view->assign('error', 'Неверный логин или пароль');
+                }
+
+                if ($user) {
+                    if ($user->getPassword() != UserModel::getPasswordHash($password)) {
+                        $this->view->assign('error',
+                          'Неверный логин или пароль');
+                    } else {
+                        $_SESSION['id'] = $user->getId();
+                        $this->redirect('/new-school/task5/html/blog/index');
+                    }
+                }
+            }
+        }
+
+        return $this->view->render('User/register.phtml', [
+          //'user' => UserModel::getById((int) $_GET['id']),
+        ]);
     }
 
+    /**
+     * @throws \Base\RedirectException
+     */
     public function registerAction()
     {
-        $names = ['aaa', 'bbb', 'sss', 'fff', 'ttt',];
-        $name = $names[array_rand($names)];
+        $name = trim($_POST['name']);
         $gender = UserModel::GENDER_MALE;
-        $password = '12345';
+        $password = trim($_POST['password']);
+        $success = true;
 
-        $user = (new UserModel())->setName($name)
-          ->setGender($gender)
-          ->setPassword(UserModel::getPasswordHash($password));
 
-        $user->save();
+        if (isset($_POST['name'])) {
+            if (!$name) {
+                $this->view->assign('error', 'Имя не может быть пустым');
+                $success = false;
+            }
+            if (!$password) {
+                $this->view->assign('error', 'Пароль не может быть пустым');
+                $success = false;
+            }
 
-        return $this->view->render('User/register.phtml', []);
+            $user = UserModel::getByName($name);
+
+            if ($user) {
+                $this->view->assign('error',
+                  'Пользователь с таким именем уже существует');
+                $success = false;
+            }
+
+            if ($success) {
+                $user = (new UserModel())->setName($name)
+                  ->setGender($gender)
+                  ->setPassword(UserModel::getPasswordHash($password));
+
+                $user->save();
+
+                $_SESSION['id'] = $user->getId();
+                $this->setUser($user);
+
+                $this->redirect('/new-school/task5/html/blog/index');
+            }
+        }
+
+        return $this->view->render('User/register.phtml', [
+          'user' => UserModel::getById((int)$_GET['id']),
+        ]);
     }
 
     public function profileAction()
@@ -34,6 +91,13 @@ class User extends AbstractController
         return $this->view->render('User/profile.phtml', [
           'user' => UserModel::getById((int)$_GET['id']),
         ]);
+    }
+
+    public function logoutAction()
+    {
+        session_destroy();
+
+        $this->redirect('/new-school/task5/html/user/login');
     }
 
 }

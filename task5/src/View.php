@@ -15,6 +15,11 @@ class View
         $this->templatePath = PROJECT_ROOT_DIR . DIRECTORY_SEPARATOR . 'app/View';
     }
 
+    public function assign(string $name, $value)
+    {
+        $this->data[$name] = $value;
+    }
+
     public function render(string $tpl, $data = []): string
     {
         $this->data += $data;
