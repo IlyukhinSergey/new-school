@@ -10,6 +10,10 @@ class User extends AbstractController
 
     public function loginAction()
     {
+        if($this->user){
+            $this->redirect('/new-school/task5/html/blog');
+        }
+
         if (isset($_POST['email'])) {
             $email = trim($_POST['email']);
 
@@ -34,7 +38,7 @@ class User extends AbstractController
         }
 
         $id = $_GET['id'] ?? 0;
-        return $this->view->render('User/register.phtml', [
+        return $this->view->render('User/login.phtml', [
           'user' => UserModel::getById((int)$id),
         ]);
     }
@@ -42,7 +46,7 @@ class User extends AbstractController
     /**
      * @throws \Base\RedirectException
      */
-    public function registerAction()
+    public function register()
     {
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
@@ -50,7 +54,7 @@ class User extends AbstractController
 
         $password1 = trim($_POST['password1']);
         $password2 = trim($_POST['password2']);
-        if (strlen($password1) < 4) {
+        if (mb_strlen($password1) < 4) {
             $this->view->assign('error',
               'Длинна пароля должна не менее 4 символов');
             $success = false;
@@ -100,7 +104,7 @@ class User extends AbstractController
         }
 
         $id = $_GET['id'] ?? 0;
-        return $this->view->render('User/register.phtml', [
+        return $this->view->render('User/login.phtml', [
           'user' => UserModel::getById((int)$id),
         ]);
     }

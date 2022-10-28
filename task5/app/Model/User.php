@@ -119,6 +119,26 @@ class User extends AbstractModel
         return $id;
     }
 
+    public function getList(int $limit = 10, int $offset = 0): array
+    {
+        $db = Db::getInstance();
+        $select = "SELECT * FROM `users` LIMIT $limit OFFSET = $offset";
+        $data = $db->fetchAll($select, __METHOD__);
+
+        if (!$data) {
+            return [];
+        }
+
+        $users = [];
+        foreach ($data as $elem) {
+            $user = new self($elem);
+            $user->id = $elem['id'];
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
     public static function getById(int $id): ?self
     {
         $db = Db::getInstance();

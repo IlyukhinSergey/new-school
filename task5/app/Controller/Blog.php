@@ -11,7 +11,7 @@ class Blog extends AbstractController
     public function indexAction()
     {
         if(!$this->user){
-            $this->redirect('/new-school/task5/html/user/register');
+            $this->redirect('/new-school/task5/html/user/login');
         }
 
         return $this->view->render('Blog/index.phtml', [

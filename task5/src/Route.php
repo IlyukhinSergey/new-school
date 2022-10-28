@@ -19,7 +19,7 @@ class Route
     private function process()
     {
         if (!$this->processed) {
-            $parts = parse_url($_SERVER['REQUEST_URI']); // '/new-school/task5/html/'
+            $parts = parse_url($_SERVER['REQUEST_URI']);
             $path = $parts['path'];
 
             if (($rout = $this->routes[$path] ?? null) !== null) {

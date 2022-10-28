@@ -62,7 +62,7 @@ class Application
     private function addRoute()
     {
         /** @uses \App\Controller\User::loginAction() */
-        $this->route->addRoute('/new-school/task5/html/user/go', User::class,
+        $this->route->addRoute('/new-school/task5/html/', User::class,
           'login');
         ///** @uses \App\Controller\User::registerAction() */
         //$this->route->addRoute('/new-school/task5/html/user/register', \App\Controller\User::class, 'register');
