@@ -33,8 +33,9 @@ class User extends AbstractController
             }
         }
 
+        $id = $_GET['id'] ?? 0;
         return $this->view->render('User/register.phtml', [
-            //'user' => UserModel::getById((int) $_GET['id']),
+          'user' => UserModel::getById((int)$id),
         ]);
     }
 
@@ -49,6 +50,11 @@ class User extends AbstractController
 
         $password1 = trim($_POST['password1']);
         $password2 = trim($_POST['password2']);
+        if (strlen($password1) < 4) {
+            $this->view->assign('error',
+              'Длинна пароля должна не менее 4 символов');
+            $success = false;
+        }
         if ($password1 !== $password2) {
             $this->view->assign('error', 'Пароли не совпадают');
             $success = false;
@@ -93,8 +99,9 @@ class User extends AbstractController
             }
         }
 
+        $id = $_GET['id'] ?? 0;
         return $this->view->render('User/register.phtml', [
-          'user' => UserModel::getById((int)$_GET['id']),
+          'user' => UserModel::getById((int)$id),
         ]);
     }
 
