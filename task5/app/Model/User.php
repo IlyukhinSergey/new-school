@@ -152,6 +152,28 @@ class User extends AbstractModel
         return new self($data);
     }
 
+
+    public static function getByIds(array $userIds)
+    {
+        $db = Db::getInstance();
+        $idsString = implode(',', $userIds);
+        $select = "SELECT * FROM `users` WHERE id IN ($idsString)";
+        $data = $db->fetchAll($select, __METHOD__);
+
+        if (!$data) {
+            return [];
+        }
+
+        $users = [];
+        foreach ($data as $elem) {
+            $user = new self($elem);
+            $user->id = $elem['id'];
+            $users[$user->id] = $user;
+        }
+
+        return $users;
+    }
+
     public static function getByName(string $name): ?self
     {
         $db = Db::getInstance();

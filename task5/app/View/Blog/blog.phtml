@@ -1,0 +1,29 @@
+Список сообщений<br>
+<?php /** @var $messages \App\Model\Message */ ?>
+<?php if ($messages = $this->messages): ?>
+    <?php foreach ($messages as $message): ?>
+        <div>
+            <?php if($user = $message->getUser()): ?>
+                <div> <?=$user->getName() ?></div>
+            <?php else: ?>
+                <div> Сообщение от удаленного пользователя</div>
+            <?php endif; ?>
+                <?=$message->getCreatedAt()?> <?=$message->getText()?>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    Сообщений пока нет
+<?php endif; ?>
+Добавить сообщение:
+<br>
+<form enctype="multipart/form-data" action="/new-school/task5/html/blog/addMessage" method="post">
+    Текст: <textarea type="text" name="text"></textarea><br><br>
+    Загрузить изображение:<br>
+    <input type="file"><br><br>
+    <input type="submit" value="Отправить">
+</form>
+
+<br>
+<form action="/new-school/task5/html/user/logout">
+    <input type="submit" value="Выйти">
+</form>

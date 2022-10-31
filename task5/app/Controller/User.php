@@ -46,7 +46,7 @@ class User extends AbstractController
     /**
      * @throws \Base\RedirectException
      */
-    public function register()
+    public function registerAction()
     {
         $name = trim($_POST['name']);
         $email = trim($_POST['email']);
