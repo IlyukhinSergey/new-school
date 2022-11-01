@@ -102,6 +102,26 @@ class Message extends AbstractModel
         return $messages;
     }
 
+    static function getUserMessages(int $userId, $limit): array
+    {
+        $db = Db::getInstance();
+        $select = "SELECT * FROM `message` WHERE `user_id` = $userId LIMIT $limit";
+        $data = $db->fetchAll($select, __METHOD__);
+
+        if (!$data) {
+            return [];
+        }
+
+        $messages = [];
+        foreach ($data as $elem) {
+            $message = new self($elem);
+            $message->id = $elem['id'];
+            $messages[] = $message;
+        }
+
+        return $messages;
+    }
+
     /**
      * @return \App\Model\User
      */
@@ -137,6 +157,17 @@ class Message extends AbstractModel
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function getData()
+    {
+        return [
+          'id' => $this->id,
+          'text' => $this->text,
+          'created_at' => $this->createdAt,
+          'user_id' => $this->userId,
+          'image' => $this->image,
+        ];
     }
 
 
