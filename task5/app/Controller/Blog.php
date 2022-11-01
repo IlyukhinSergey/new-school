@@ -16,23 +16,24 @@ class Blog extends AbstractController
         }
 
         $messages = Message::getList();
+        $users = [];
         if ($messages) {
             $userIds = array_map(function (Message $message) {
                 return $message->getUserId();
             },
               $messages);
 
-           $users =  Usermodel::getByIds($userIds);
-           array_walk($messages, function (Message $message) use ($users) {
-               if (isset($users[$message->getUserId()])){
-                   $message->setUser($users[$message->getUserId()]);
-               }
-           }
-           );
+            $users = Usermodel::getByIds($userIds);
+            array_walk($messages, function (Message $message) use ($users) {
+                if (isset($users[$message->getUserId()])) {
+                    $message->setUser($users[$message->getUserId()]);
+                }
+            }
+            );
         }
 
         return $this->view->render('Blog/blog.phtml', [
-          'users' => $users,
+          'user' => $this->user, //?
           'messages' => $messages,
         ]);
     }
@@ -54,7 +55,7 @@ class Blog extends AbstractController
           'created_at' => date("Y-m-d H:i:s"),
         ]);
 
-        if(isset($_FILES['images']['tmp_name'])){
+        if (isset($_FILES['images']['tmp_name'])) {
             $message->loadFile($_FILES['images']['tmp_name']);
         }
 

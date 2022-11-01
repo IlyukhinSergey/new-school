@@ -207,4 +207,9 @@ class User extends AbstractModel
         return sha1('ghghhgg' . $password);
     }
 
+    public function isAdmin(): bool
+    {
+        return in_array($this->id, ADMIN_IDS);
+    }
+
 }

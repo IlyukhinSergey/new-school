@@ -35,6 +35,8 @@ class Application
             $this->controller->setView($view);
             $this->initUser();
 
+            $this->controller->preDispatch();
+
             $content = $this->controller->{$this->actionName}();
 
             echo $content;

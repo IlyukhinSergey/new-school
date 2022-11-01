@@ -28,5 +28,8 @@ abstract class AbstractController
         $this->user = $user;
     }
 
+    public function preDispatch()
+    {
+    }
 
 }

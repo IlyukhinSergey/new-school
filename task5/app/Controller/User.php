@@ -10,7 +10,7 @@ class User extends AbstractController
 
     public function loginAction()
     {
-        if($this->user){
+        if ($this->user) {
             $this->redirect('/new-school/task5/html/blog');
         }
 

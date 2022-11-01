@@ -7,11 +7,12 @@ use Base\AbstractController;
 
 class Api extends AbstractController
 {
+
     public function getUserMessagesAction()
     {
-        $userId = (int) $_GET['user_id'] ?? 0;
-        if (!$userId){
-            return $this->response(['error'=> 'no user id']);
+        $userId = (int)$_GET['user_id'] ?? 0;
+        if (!$userId) {
+            return $this->response(['error' => 'no user id']);
         }
         $messages = Message::getUserMessages($userId, 20);
 
@@ -20,7 +21,7 @@ class Api extends AbstractController
         }
 
         //если массив есть, пробежимся по массиву сообщений
-        $data = array_map(function (Message $message){
+        $data = array_map(function (Message $message) {
             return $message->getData();
         }, $messages);
 
@@ -32,4 +33,5 @@ class Api extends AbstractController
         header('Content-type: application/json');
         return json_encode($data);
     }
+
 }

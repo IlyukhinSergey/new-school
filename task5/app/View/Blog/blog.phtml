@@ -1,6 +1,9 @@
 Список сообщений<br><br>
 <?php
-/** @var $messages \App\Model\Message */ ?>
+/** @var $messages \App\Model\Message */
+
+/** @var $user \App\Model\User */
+$user = $this->user; ?>
 <?php
 if ($messages = $this->messages): ?>
 <?php
@@ -9,24 +12,30 @@ foreach ($messages
 as $message): ?>
 <div>
     <?php
-    if ($user = $message->getUser()): ?>
-        <div> <?= htmlspecialchars($user->getEmail()) ?></div>
+    if ($author = $message->getUser()): ?>
+        <div> <?= htmlspecialchars($author->getEmail()) ?></div>
     <?php
     else: ?>
         <div> Сообщение от удаленного пользователя</div>
     <?php
     endif; ?>
     <?= $message->getCreatedAt() ?> <?= htmlspecialchars(nl2br($message->getText())) ?>
-    <br><br>
-    название картинки из БД <?=$message->getImage()?> <br>
-    <?=getcwd() . '/images/' . $message->getImage()?>
-
-
-    <?php if($message->getImage()):?>
+    <br>
+    <?php
+    if ($message->getImage()): ?>
         <div>
-            <img src="../images/<?=$message->getImage();?>" width="150" height="90">
+            <img src="../images/<?= $message->getImage(); ?>" width="150"
+                 height="90">
         </div>
-    <?php endif; ?>
+    <?php
+    endif; ?>
+    <?php
+    if ($user->isAdmin()): ?>
+        <div>
+            <a href="/new-school/task5/html/admin/deleteMessage/?id=<?= $message->getId(); ?>">delete</a>
+        </div>
+    <?php
+    endif; ?> <br><br>
     <?php
     endforeach; ?>
     <?php

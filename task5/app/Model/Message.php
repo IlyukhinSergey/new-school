@@ -122,6 +122,14 @@ class Message extends AbstractModel
         return $messages;
     }
 
+
+    public static function deleteMessage(int $idMessage)
+    {
+        $db = Db::getInstance();
+        $query = "DELETE FROM message WHERE id = $idMessage";
+        return $db->exec($query, __METHOD__);
+    }
+
     /**
      * @return \App\Model\User
      */
