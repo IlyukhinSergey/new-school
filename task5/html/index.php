@@ -1,6 +1,7 @@
 <?php
 
 use Base\Application;
+
 require '../src/config.php';
 
 include '../vendor/autoload.php';

@@ -8,40 +8,25 @@ use Base\Db;
 class User extends AbstractModel
 {
 
-    const GENDER_MALE = 1;
-
-    const GENDER_FEMALE = 2;
-
     private $id;
 
     private $name;
 
+    private $email;
+
     private $password;
 
     private $createdAt;
-
-    private $gender;
 
     public function __construct($data = [])
     {
         if ($data) {
             $this->id = $data['id'];
             $this->name = $data['name'];
+            $this->email = $data['email'];
             $this->password = $data['password'];
-            $this->gender = $data['gender'];
             $this->createdAt = $data['created_at'];
         }
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name)
-    {
-        $this->name = $name;
-        return $this;
     }
 
     /**
@@ -58,6 +43,28 @@ class User extends AbstractModel
     public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
         return $this;
     }
 
@@ -95,36 +102,14 @@ class User extends AbstractModel
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGender(): int
-    {
-        return $this->gender;
-    }
-
-    public function getGenderString(): string
-    {
-        return $this->gender == self::GENDER_MALE ? 'male' : 'female';
-    }
-
-    /**
-     * @param  mixed  $gender
-     */
-    public function setGender(int $gender): self
-    {
-        $this->gender = $gender;
-        return $this;
-    }
-
     public function save()
     {
         $db = Db::getInstance();
-        $insert = "INSERT INTO `users`(`name`, `password`, `gender`) VALUES (:name, :password, :gender)";
+        $insert = "INSERT INTO `users`(`name`, `email`, `password`) VALUES (:name, :email, :password)";
         $param = [
           'name' => $this->name,
+          'email' => $this->email,
           'password' => $this->password,
-          'gender' => $this->getGender(),
         ];
         $db->exec($insert, __METHOD__, $param);
 
@@ -132,6 +117,26 @@ class User extends AbstractModel
         $this->id = $id;
 
         return $id;
+    }
+
+    public function getList(int $limit = 10, int $offset = 0): array
+    {
+        $db = Db::getInstance();
+        $select = "SELECT * FROM `users` LIMIT $limit OFFSET = $offset";
+        $data = $db->fetchAll($select, __METHOD__);
+
+        if (!$data) {
+            return [];
+        }
+
+        $users = [];
+        foreach ($data as $elem) {
+            $user = new self($elem);
+            $user->id = $elem['id'];
+            $users[] = $user;
+        }
+
+        return $users;
     }
 
     public static function getById(int $id): ?self
@@ -145,6 +150,28 @@ class User extends AbstractModel
         }
 
         return new self($data);
+    }
+
+
+    public static function getByIds(array $userIds)
+    {
+        $db = Db::getInstance();
+        $idsString = implode(',', $userIds);
+        $select = "SELECT * FROM `users` WHERE id IN ($idsString)";
+        $data = $db->fetchAll($select, __METHOD__);
+
+        if (!$data) {
+            return [];
+        }
+
+        $users = [];
+        foreach ($data as $elem) {
+            $user = new self($elem);
+            $user->id = $elem['id'];
+            $users[$user->id] = $user;
+        }
+
+        return $users;
     }
 
     public static function getByName(string $name): ?self
@@ -161,9 +188,28 @@ class User extends AbstractModel
         return new self($data);
     }
 
+    public static function getByEmail(string $email): ?self
+    {
+        $db = Db::getInstance();
+        $select = "SELECT * FROM `users` WHERE email = :email";
+        $param = ['email' => $email];
+        $data = $db->fetchOne($select, __METHOD__, $param);
+
+        if (!$data) {
+            return null;
+        }
+
+        return new self($data);
+    }
+
     public static function getPasswordHash(string $password)
     {
         return sha1('ghghhgg' . $password);
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->id, ADMIN_IDS);
     }
 
 }

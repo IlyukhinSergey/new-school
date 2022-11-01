@@ -10,21 +10,25 @@ class User extends AbstractController
 
     public function loginAction()
     {
-        if (isset($_POST['name'])) {
-            $name = trim($_POST['name']);
+        if ($this->user) {
+            $this->redirect('/new-school/task5/html/blog');
+        }
 
-            if ($name) {
+        if (isset($_POST['email'])) {
+            $email = trim($_POST['email']);
+
+            if ($email) {
                 $password = $_POST['password'];
-                $user = UserModel::getByName($name);
+                $user = UserModel::getByEmail($email);
 
                 if (!$user) {
-                    $this->view->assign('error', 'Неверный логин или пароль');
+                    $this->view->assign('error', 'Неверный email');
                 }
 
                 if ($user) {
                     if ($user->getPassword() != UserModel::getPasswordHash($password)) {
                         $this->view->assign('error',
-                          'Неверный логин или пароль');
+                          'Неверный пароль');
                     } else {
                         $_SESSION['id'] = $user->getId();
                         $this->redirect('/new-school/task5/html/blog/index');
@@ -33,8 +37,9 @@ class User extends AbstractController
             }
         }
 
-        return $this->view->render('User/register.phtml', [
-          //'user' => UserModel::getById((int) $_GET['id']),
+        $id = $_GET['id'] ?? 0;
+        return $this->view->render('User/login.phtml', [
+          'user' => UserModel::getById((int)$id),
         ]);
     }
 
@@ -44,32 +49,49 @@ class User extends AbstractController
     public function registerAction()
     {
         $name = trim($_POST['name']);
-        $gender = UserModel::GENDER_MALE;
-        $password = trim($_POST['password']);
+        $email = trim($_POST['email']);
         $success = true;
 
+        $password1 = trim($_POST['password1']);
+        $password2 = trim($_POST['password2']);
+        if (mb_strlen($password1) < 4) {
+            $this->view->assign('error',
+              'Длинна пароля должна не менее 4 символов');
+            $success = false;
+        }
+        if ($password1 !== $password2) {
+            $this->view->assign('error', 'Пароли не совпадают');
+            $success = false;
+        }
+        $password = $password1;
 
         if (isset($_POST['name'])) {
             if (!$name) {
                 $this->view->assign('error', 'Имя не может быть пустым');
                 $success = false;
             }
+
+            if (!$email) {
+                $this->view->assign('error', 'email не может быть пустым');
+                $success = false;
+            }
+
             if (!$password) {
                 $this->view->assign('error', 'Пароль не может быть пустым');
                 $success = false;
             }
 
-            $user = UserModel::getByName($name);
+            $user = UserModel::getByEmail($email);
 
             if ($user) {
                 $this->view->assign('error',
-                  'Пользователь с таким именем уже существует');
+                  'Пользователь с таким email уже существует');
                 $success = false;
             }
 
             if ($success) {
                 $user = (new UserModel())->setName($name)
-                  ->setGender($gender)
+                  ->setEmail($email)
                   ->setPassword(UserModel::getPasswordHash($password));
 
                 $user->save();
@@ -81,8 +103,9 @@ class User extends AbstractController
             }
         }
 
-        return $this->view->render('User/register.phtml', [
-          'user' => UserModel::getById((int)$_GET['id']),
+        $id = $_GET['id'] ?? 0;
+        return $this->view->render('User/login.phtml', [
+          'user' => UserModel::getById((int)$id),
         ]);
     }
 
