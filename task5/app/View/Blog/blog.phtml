@@ -1,29 +1,50 @@
 Список сообщений<br><br>
-<?php /** @var $messages \App\Model\Message */ ?>
-<?php if ($messages = $this->messages): ?>
-    <?php foreach ($messages as $message): ?>
-        <div>
-            <?php if($user = $message->getUser()): ?>
-                <div> <?=htmlspecialchars($user->getEmail()) ?></div>
-            <?php else: ?>
-                <div> Сообщение от удаленного пользователя</div>
-            <?php endif; ?>
-                <?=$message->getCreatedAt()?> <?=htmlspecialchars(nl2br($message->getText()))?><br><br>
-        </div>
-    <?php endforeach; ?>
-<?php else: ?>
-    Сообщений пока нет
-<?php endif; ?>
-Добавить сообщение:
-<br>
-<form enctype="multipart/form-data" action="/new-school/task5/html/blog/addMessage" method="post">
-    Текст: <textarea type="text" name="text"></textarea><br><br>
-    Загрузить изображение:<br>
-    <input type="file"><br><br>
-    <input type="submit" value="Отправить">
-</form>
+<?php
+/** @var $messages \App\Model\Message */ ?>
+<?php
+if ($messages = $this->messages): ?>
+<?php
+foreach ($messages
 
-<br>
-<form action="/new-school/task5/html/user/logout">
-    <input type="submit" value="Выйти">
-</form>
+as $message): ?>
+<div>
+    <?php
+    if ($user = $message->getUser()): ?>
+        <div> <?= htmlspecialchars($user->getEmail()) ?></div>
+    <?php
+    else: ?>
+        <div> Сообщение от удаленного пользователя</div>
+    <?php
+    endif; ?>
+    <?= $message->getCreatedAt() ?> <?= htmlspecialchars(nl2br($message->getText())) ?>
+    <br><br>
+    название картинки из БД <?=$message->getImage()?> <br>
+    <?=getcwd() . '/images/' . $message->getImage()?>
+
+
+    <?php if($message->getImage()):?>
+        <div>
+            <img src="../images/<?=$message->getImage();?>" width="150" height="90">
+        </div>
+    <?php endif; ?>
+    <?php
+    endforeach; ?>
+    <?php
+    else: ?>
+        Сообщений пока нет
+    <?php
+    endif; ?>
+    Добавить сообщение:
+    <br>
+    <form enctype="multipart/form-data"
+          action="/new-school/task5/html/blog/addMessage" method="post">
+        Текст: <textarea type="text" name="text"></textarea><br><br>
+        Загрузить изображение:<br>
+        <input type="file" name="images"><br><br>
+        <input type="submit" value="Отправить">
+    </form>
+
+    <br>
+    <form action="/new-school/task5/html/user/logout">
+        <input type="submit" value="Выйти">
+    </form>

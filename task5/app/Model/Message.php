@@ -9,11 +9,17 @@ class Message extends AbstractModel
 {
 
     private $id;
+
     private $text;
+
     private $createdAt;
+
     private $userId;
+
     /** @var $user \App\Model\User */
     private $user;
+
+    private $image;
 
     /**
      * @return mixed
@@ -30,6 +36,7 @@ class Message extends AbstractModel
             $this->text = $data['text'];
             $this->userId = $data['user_id'];
             $this->createdAt = $data['created_at'];
+            $this->image = $data['image'] ?? '';
         }
     }
 
@@ -60,11 +67,12 @@ class Message extends AbstractModel
     public function saveText()
     {
         $db = Db::getInstance();
-        $insert = "INSERT INTO `message`(`text`, `user_id`, `created_at`) VALUES (:text, :userId, :created_at)";
+        $insert = "INSERT INTO `message`(`text`, `user_id`, `created_at`, `image`) VALUES (:text, :userId, :created_at, :image)";
         $param = [
           'text' => $this->text,
           'userId' => $this->userId,
           'created_at' => $this->createdAt,
+          'image' => $this->image,
         ];
         $db->exec($insert, __METHOD__, $param);
 
@@ -103,13 +111,33 @@ class Message extends AbstractModel
     }
 
     /**
-     * @param  \App\Model\User $user
+     * @param  \App\Model\User  $user
      */
     public function setUser(User $user): void
     {
         $this->user = $user;
     }
 
+    public function loadFile(string $file)
+    {
+        if (file_exists($file)) {
+            $this->image = $this->getFileName();
+            move_uploaded_file($file, getcwd() . '/images/' . $this->image);
+        }
+    }
+
+    private function getFileName()
+    {
+        return sha1(microtime() . mt_rand(1, 9999999)) . '.jpg';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 
 
 }

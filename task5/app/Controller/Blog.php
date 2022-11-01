@@ -53,6 +53,11 @@ class Blog extends AbstractController
           'user_id' => $this->user->getId(),
           'created_at' => date("Y-m-d H:i:s"),
         ]);
+
+        if(isset($_FILES['images']['tmp_name'])){
+            $message->loadFile($_FILES['images']['tmp_name']);
+        }
+
         $message->saveText();
         $this->redirect('/new-school/task5/html/blog/index');
     }
