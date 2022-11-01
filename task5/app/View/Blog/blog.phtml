@@ -1,14 +1,14 @@
-Список сообщений<br>
+Список сообщений<br><br>
 <?php /** @var $messages \App\Model\Message */ ?>
 <?php if ($messages = $this->messages): ?>
     <?php foreach ($messages as $message): ?>
         <div>
             <?php if($user = $message->getUser()): ?>
-                <div> <?=$user->getName() ?></div>
+                <div> <?=htmlspecialchars($user->getEmail()) ?></div>
             <?php else: ?>
                 <div> Сообщение от удаленного пользователя</div>
             <?php endif; ?>
-                <?=$message->getCreatedAt()?> <?=$message->getText()?>
+                <?=$message->getCreatedAt()?> <?=htmlspecialchars(nl2br($message->getText()))?><br><br>
         </div>
     <?php endforeach; ?>
 <?php else: ?>

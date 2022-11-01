@@ -51,6 +51,7 @@ class Blog extends AbstractController
         $message = new Message([
           'text' => $text,
           'user_id' => $this->user->getId(),
+          'created_at' => date("Y-m-d H:i:s"),
         ]);
         $message->saveText();
         $this->redirect('/new-school/task5/html/blog/index');

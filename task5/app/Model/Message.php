@@ -29,7 +29,7 @@ class Message extends AbstractModel
             //$this->id = $data['id'];
             $this->text = $data['text'];
             $this->userId = $data['user_id'];
-            //$this->createdAt = $data['created_at'];
+            $this->createdAt = $data['created_at'];
         }
     }
 
@@ -60,10 +60,11 @@ class Message extends AbstractModel
     public function saveText()
     {
         $db = Db::getInstance();
-        $insert = "INSERT INTO `message`(`text`, `user_id`) VALUES (:text, :userId)";
+        $insert = "INSERT INTO `message`(`text`, `user_id`, `created_at`) VALUES (:text, :userId, :created_at)";
         $param = [
           'text' => $this->text,
           'userId' => $this->userId,
+          'created_at' => $this->createdAt,
         ];
         $db->exec($insert, __METHOD__, $param);
 
