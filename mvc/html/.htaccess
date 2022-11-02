@@ -4,4 +4,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule .* index.php [L]
 
-# http://localhost/new-school/task5/html
+# http://localhost/new-school/mvc/html

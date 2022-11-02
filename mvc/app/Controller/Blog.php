@@ -12,7 +12,7 @@ class Blog extends AbstractController
     public function indexAction()
     {
         if (!$this->user) {
-            $this->redirect('/new-school/task5/html/user/login');
+            $this->redirect('/new-school/mvc/html/user/login');
         }
 
         $messages = Message::getList();
@@ -41,7 +41,7 @@ class Blog extends AbstractController
     public function addMessageAction()
     {
         if (!$this->user) {
-            $this->redirect('/new-school/task5/html/user/login');
+            $this->redirect('/new-school/mvc/html/user/login');
         }
 
         $text = (string)$_POST['text'];
@@ -60,7 +60,7 @@ class Blog extends AbstractController
         }
 
         $message->saveText();
-        $this->redirect('/new-school/task5/html/blog/index');
+        $this->redirect('/new-school/mvc/html/blog/index');
     }
 
     public function error()

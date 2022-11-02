@@ -11,7 +11,7 @@ class User extends AbstractController
     public function loginAction()
     {
         if ($this->user) {
-            $this->redirect('/new-school/task5/html/blog');
+            $this->redirect('/new-school/mvc/html/blog');
         }
 
         if (isset($_POST['email'])) {
@@ -31,7 +31,7 @@ class User extends AbstractController
                           'Неверный пароль');
                     } else {
                         $_SESSION['id'] = $user->getId();
-                        $this->redirect('/new-school/task5/html/blog/index');
+                        $this->redirect('/new-school/mvc/html/blog/index');
                     }
                 }
             }
@@ -99,7 +99,7 @@ class User extends AbstractController
                 $_SESSION['id'] = $user->getId();
                 $this->setUser($user);
 
-                $this->redirect('/new-school/task5/html/blog/index');
+                $this->redirect('/new-school/mvc/html/blog/index');
             }
         }
 
@@ -120,7 +120,7 @@ class User extends AbstractController
     {
         session_destroy();
 
-        $this->redirect('/new-school/task5/html/user/login');
+        $this->redirect('/new-school/mvc/html/user/login');
     }
 
 }

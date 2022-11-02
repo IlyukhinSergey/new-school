@@ -12,7 +12,7 @@ class Admin extends AbstractController
     {
         parent::preDispatch();
         if (!$this->user || !$this->user->isAdmin()) {
-            $this->redirect('/new-school/task5/html/');
+            $this->redirect('/new-school/mvc/html/');
         }
     }
 
@@ -20,7 +20,7 @@ class Admin extends AbstractController
     {
         $idMessage = (int)$_GET['id'];
         Message::deleteMessage($idMessage);
-        $this->redirect('/new-school/task5/html/blog/index');
+        $this->redirect('/new-school/mvc/html/blog/index');
     }
 
 }

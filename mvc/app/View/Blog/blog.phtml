@@ -32,7 +32,7 @@ as $message): ?>
     <?php
     if ($user->isAdmin()): ?>
         <div>
-            <a href="/new-school/task5/html/admin/deleteMessage/?id=<?= $message->getId(); ?>">delete</a>
+            <a href="/new-school/mvc/html/admin/deleteMessage/?id=<?= $message->getId(); ?>">delete</a>
         </div>
     <?php
     endif; ?> <br><br>
@@ -46,7 +46,7 @@ as $message): ?>
     Добавить сообщение:
     <br>
     <form enctype="multipart/form-data"
-          action="/new-school/task5/html/blog/addMessage" method="post">
+          action="/new-school/mvc/html/blog/addMessage" method="post">
         Текст: <textarea type="text" name="text"></textarea><br><br>
         Загрузить изображение:<br>
         <input type="file" name="images"><br><br>
@@ -54,6 +54,6 @@ as $message): ?>
     </form>
 
     <br>
-    <form action="/new-school/task5/html/user/logout">
+    <form action="/new-school/mvc/html/user/logout">
         <input type="submit" value="Выйти">
     </form>
