@@ -22,13 +22,14 @@ class User extends AbstractController
                 $user = UserModel::getByEmail($email);
 
                 if (!$user) {
-                    $this->view->assign('error', 'Неверный email');
+                    $error = $this->view->assign('error',
+                      'Неверный email или пароль');
                 }
 
                 if ($user) {
                     if ($user->getPassword() != UserModel::getPasswordHash($password)) {
-                        $this->view->assign('error',
-                          'Неверный пароль');
+                        $error = $this->view->assign('error',
+                          'Неверный email или пароль');
                     } else {
                         $_SESSION['id'] = $user->getId();
                         $this->redirect('/new-school/mvc/html/blog/index');
@@ -38,8 +39,10 @@ class User extends AbstractController
         }
 
         $id = $_GET['id'] ?? 0;
-        return $this->view->render('User/login.phtml', [
+
+        return $this->view->renderTwig('User/login.twig', [
           'user' => UserModel::getById((int)$id),
+          'error' => $error ?? '',
         ]);
     }
 
@@ -55,35 +58,38 @@ class User extends AbstractController
             $password1 = trim($_POST['password1']);
             $password2 = trim($_POST['password2']);
             if (mb_strlen($password1) < 4) {
-                $this->view->assign('error',
+                $error = $this->view->assign('error',
                   'Длинна пароля должна не менее 4 символов');
                 $success = false;
             }
             if ($password1 !== $password2) {
-                $this->view->assign('error', 'Пароли не совпадают');
+                $error = $this->view->assign('error', 'Пароли не совпадают');
                 $success = false;
             }
             $password = $password1;
             if (isset($_POST['name'])) {
                 if (!$name) {
-                    $this->view->assign('error', 'Имя не может быть пустым');
+                    $error = $this->view->assign('error',
+                      'Имя не может быть пустым');
                     $success = false;
                 }
 
                 if (!$email) {
-                    $this->view->assign('error', 'email не может быть пустым');
+                    $error = $this->view->assign('error',
+                      'email не может быть пустым');
                     $success = false;
                 }
 
                 if (!$password) {
-                    $this->view->assign('error', 'Пароль не может быть пустым');
+                    $error = $this->view->assign('error',
+                      'Пароль не может быть пустым');
                     $success = false;
                 }
 
                 $user = UserModel::getByEmail($email);
 
                 if ($user) {
-                    $this->view->assign('error',
+                    $error = $this->view->assign('error',
                       'Пользователь с таким email уже существует');
                     $success = false;
                 }
@@ -106,6 +112,7 @@ class User extends AbstractController
         $id = $_GET['id'] ?? 0;
         return $this->view->render('User/login.phtml', [
           'user' => UserModel::getById((int)$id),
+          'error' => $error,
         ]);
     }
 

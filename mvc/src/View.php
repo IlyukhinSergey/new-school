@@ -22,7 +22,7 @@ class View
 
     public function assign(string $name, $value)
     {
-        $this->data[$name] = $value;
+        return $this->data[$name] = $value;
     }
 
     public function render(string $tpl, $data = []): string
@@ -44,10 +44,9 @@ class View
             $loader = new FilesystemLoader($this->templatePath);
             $this->twig = new Environment($loader);
 //            $this->twig = new Environment($loader, [
-//              'cache' => '/path/to/compilation_cache',
-//            ]); это с кеширование
+//              'cache' => './compilation_cache',
+//            ]); //это с кеширование
         }
-
         return $this->twig->render($tpl, $data);
     }
 

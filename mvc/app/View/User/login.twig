@@ -1,0 +1,26 @@
+<h2>Регистрация:</h2>
+<form action="/new-school/mvc/html/user/register" method="post">
+    Имя: <input type="text" name="name"><br>
+    Email: <input type="email" name="email"><br>
+    Пароль: <input type="password" name="password1"><br>
+    Повторите пароль: <input type="password" name="password2"><br>
+    <input type="submit" value="Зарегистрироваться">
+</form>
+<br>
+<br>
+
+Войти:
+<form action="/new-school/mvc/html/user/login" method="post">
+    E-mail: <input type="text" name="email"><br>
+    Пароль: <input type="password" name="password"><br>
+    <input type="submit" value="Войти">
+</form>
+
+<br>
+<br>
+
+{% if error %}
+    <div>
+        <span style="color: red"> {{ error }} </span>
+    </div>
+{% endif %}
