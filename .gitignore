@@ -6,3 +6,5 @@
 /mvc/vendor/
 /task5/src/config.php
 /task5/vendor/
+/mvc/html/images/*.jpg
+/task5/images/*.jpg
