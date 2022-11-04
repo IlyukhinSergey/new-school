@@ -11,7 +11,7 @@ class User extends AbstractController
     public function loginAction()
     {
         if ($this->user) {
-            $this->redirect('/new-school/mvc/html/blog');
+            $this->redirect('/new-school/mvc/html/blog/index');
         }
 
         if (isset($_POST['email'])) {
@@ -48,58 +48,58 @@ class User extends AbstractController
      */
     public function registerAction()
     {
-        $name = trim($_POST['name']);
-        $email = trim($_POST['email']);
-        $success = true;
-
-        $password1 = trim($_POST['password1']);
-        $password2 = trim($_POST['password2']);
-        if (mb_strlen($password1) < 4) {
-            $this->view->assign('error',
-              'Длинна пароля должна не менее 4 символов');
-            $success = false;
-        }
-        if ($password1 !== $password2) {
-            $this->view->assign('error', 'Пароли не совпадают');
-            $success = false;
-        }
-        $password = $password1;
-
-        if (isset($_POST['name'])) {
-            if (!$name) {
-                $this->view->assign('error', 'Имя не может быть пустым');
-                $success = false;
-            }
-
-            if (!$email) {
-                $this->view->assign('error', 'email не может быть пустым');
-                $success = false;
-            }
-
-            if (!$password) {
-                $this->view->assign('error', 'Пароль не может быть пустым');
-                $success = false;
-            }
-
-            $user = UserModel::getByEmail($email);
-
-            if ($user) {
+        if (isset($_POST['email'])) {
+            $name = trim($_POST['name']);
+            $email = trim($_POST['email']);
+            $success = true;
+            $password1 = trim($_POST['password1']);
+            $password2 = trim($_POST['password2']);
+            if (mb_strlen($password1) < 4) {
                 $this->view->assign('error',
-                  'Пользователь с таким email уже существует');
+                  'Длинна пароля должна не менее 4 символов');
                 $success = false;
             }
+            if ($password1 !== $password2) {
+                $this->view->assign('error', 'Пароли не совпадают');
+                $success = false;
+            }
+            $password = $password1;
+            if (isset($_POST['name'])) {
+                if (!$name) {
+                    $this->view->assign('error', 'Имя не может быть пустым');
+                    $success = false;
+                }
 
-            if ($success) {
-                $user = (new UserModel())->setName($name)
-                  ->setEmail($email)
-                  ->setPassword(UserModel::getPasswordHash($password));
+                if (!$email) {
+                    $this->view->assign('error', 'email не может быть пустым');
+                    $success = false;
+                }
 
-                $user->save();
+                if (!$password) {
+                    $this->view->assign('error', 'Пароль не может быть пустым');
+                    $success = false;
+                }
 
-                $_SESSION['id'] = $user->getId();
-                $this->setUser($user);
+                $user = UserModel::getByEmail($email);
 
-                $this->redirect('/new-school/mvc/html/blog/index');
+                if ($user) {
+                    $this->view->assign('error',
+                      'Пользователь с таким email уже существует');
+                    $success = false;
+                }
+
+                if ($success) {
+                    $user = (new UserModel())->setName($name)
+                      ->setEmail($email)
+                      ->setPassword(UserModel::getPasswordHash($password));
+
+                    $user->save();
+
+                    $_SESSION['id'] = $user->getId();
+                    $this->setUser($user);
+
+                    $this->redirect('/new-school/mvc/html/blog/index');
+                }
             }
         }
 

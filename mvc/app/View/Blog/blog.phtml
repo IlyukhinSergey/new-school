@@ -7,15 +7,11 @@ $user = $this->user; ?>
 <?php
 if ($messages = $this->messages): ?>
 <?php
-foreach ($messages
-
-as $message): ?>
+foreach ($messages as $message): ?>
 <div>
-    <?php
-    if ($author = $message->getUser()): ?>
+    <?php if ($author = $message->getUser()): ?>
         <div> <?= htmlspecialchars($author->getEmail()) ?></div>
-    <?php
-    else: ?>
+    <?php else: ?>
         <div> Сообщение от удаленного пользователя</div>
     <?php
     endif; ?>

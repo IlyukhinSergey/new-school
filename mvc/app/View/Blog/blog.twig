@@ -1,0 +1,62 @@
+
+id - {{ user.id }}<br>
+имя - {{ user.name }}<br>
+емаил - {{ user.email }}<br>
+пароль - {{ user.password }}<br>
+дата создания - {{ user.createdAt }}<br><br>
+
+Message :
+id - {{ messages.1.id }}<br>
+text - {{ messages.1.text }}<br>
+createdAt - {{ messages.1.createdAt }}<br>
+user - {{ messages.1.user.email }}<br>
+image - {{ messages.1.image }}
+
+
+
+<h2>Список сообщений</h2>
+{% for message in messages %}
+    {% if message.user %}
+        <div> {{ message.user.email }}</div>
+    {% else %}
+        <div>Сообщение от удаленного пользователя</div>
+    {% endif %}
+
+    <div>{{ message.createdAt }}</div>
+
+    {% if message.image %}
+        <div>
+            <img src="../images/{{ message.image }}" width="150"
+                 height="90" alt="images">
+        </div>
+    {% endif %}
+    {% if user.isAdmin() %}
+        <div>
+            <a href="/new-school/mvc/html/admin/deleteMessage/?id={{ message.id }}">delete</a>
+        </div>
+    {% endif %}
+    <br>
+    <br>
+{% endfor %}
+
+{# user
+object(App\Model\User) (5) id - name- email - password - createdAt #}
+
+{# massages
+object(App\Model\Message)#9 (6) id - text - createdAt - userId - user - image#}
+
+
+Добавить сообщение:
+<br>
+<form enctype="multipart/form-data"
+      action="/new-school/mvc/html/blog/addMessage" method="post">
+    Текст: <textarea type="text" name="text"></textarea><br><br>
+    Загрузить изображение:<br>
+    <input type="file" name="images"><br><br>
+    <input type="submit" value="Отправить">
+</form>
+
+<br>
+<form action="/new-school/mvc/html/user/logout">
+    <input type="submit" value="Выйти">
+</form>

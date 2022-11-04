@@ -32,8 +32,12 @@ class Blog extends AbstractController
             );
         }
 
-        return $this->view->render('Blog/blog.phtml', [
-          'user' => $this->user, //?
+        //var_dump($this->user);
+//        var_dump($messages);
+//        die;
+
+        return $this->view->renderTwig('Blog/blog.twig', [
+          'user' => $this->user,
           'messages' => $messages,
         ]);
     }
@@ -61,6 +65,11 @@ class Blog extends AbstractController
 
         $message->saveText();
         $this->redirect('/new-school/mvc/html/blog/index');
+    }
+
+    public function twigAction()
+    {
+        return$this->view->renderTwig('Blog/test.twig', ['var' => 'ololo']);
     }
 
     public function error()
