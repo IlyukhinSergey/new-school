@@ -178,5 +178,4 @@ class Message extends AbstractModel
         ];
     }
 
-
 }

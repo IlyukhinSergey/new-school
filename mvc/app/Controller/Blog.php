@@ -32,10 +32,6 @@ class Blog extends AbstractController
             );
         }
 
-        //var_dump($this->user);
-//        var_dump($messages);
-//        die;
-
         return $this->view->renderTwig('Blog/blog.twig', [
           'user' => $this->user,
           'messages' => $messages,
@@ -69,7 +65,7 @@ class Blog extends AbstractController
 
     public function twigAction()
     {
-        return$this->view->renderTwig('Blog/test.twig', ['var' => 'ololo']);
+        return $this->view->renderTwig('Blog/test.twig', ['var' => 'ololo']);
     }
 
     public function error()
