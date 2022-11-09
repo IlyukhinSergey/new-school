@@ -17,10 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// 'middleware' => 'auth'
 //Создаем свой роут
-Route::get('/books', [\App\Http\Controllers\BookController::class, 'index'])->name('books');
-Route::get('/books/create', [\App\Http\Controllers\BookController::class, 'create'])->name('books.create');
-Route::get('/books/edit/{id}', [\App\Http\Controllers\BookController::class, 'edit'])->name('books.edit');
-Route::post('/books/add', [\App\Http\Controllers\BookController::class, 'add'])->name('books.add');
-Route::post('/books/save/{id}', [\App\Http\Controllers\BookController::class, 'save'])->name('books.save');
-Route::get('/books/delete/{id}', [\App\Http\Controllers\BookController::class, 'delere'])->name('books.delete');
+Route::group(['prefix' => 'books'], function (){
+    Route::get('/', [\App\Http\Controllers\BookController::class, 'index'])->name('books');
+    Route::get('create', [\App\Http\Controllers\BookController::class, 'create'])->name('books.create');
+    Route::get('edit/{id}', [\App\Http\Controllers\BookController::class, 'edit'])->name('books.edit');
+    Route::post('add', [\App\Http\Controllers\BookController::class, 'add'])->name('books.add');
+    Route::post('save/{id}', [\App\Http\Controllers\BookController::class, 'save'])->name('books.save');
+    Route::get('delete/{id}', [\App\Http\Controllers\BookController::class, 'delete'])->name('books.delete');
+});
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

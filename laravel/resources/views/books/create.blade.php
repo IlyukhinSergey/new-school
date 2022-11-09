@@ -1,11 +1,11 @@
 
 <div>
-    <form action="{{route('books.save', ['id' => $book->id])}}" method="post">
+    <form action="{{route('books.add')}}" method="post">
         @csrf
         <table>
             <tr>
                 <td>name</td>
-                <td><input type="text" name="name" value="{{$book->name}}">
+                <td><input type="text" name="name">
                 @if ($errors->has('name'))
                     <div class="allert alert-danger"> {{$errors->first('name')}}</div>
                 @endif
@@ -13,13 +13,13 @@
             </tr>
             <tr>
                 <td>price</td>
-                <td><input type="text" name="price" value="{{$book->price}}">
+                <td><input type="text" name="price">
                 @if ($errors->has('price'))
                     <div class="allert alert-danger"> {{$errors->first('price')}}</div>
                 @endif
                 </td>
             </tr>
         </table>
-        <input type="submit" value="сохранить">
+        <input type="submit" value="создать">
     </form>
 </div>

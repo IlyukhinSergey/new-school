@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 
@@ -14,21 +15,29 @@ class BookController extends Controller
         return view('books.list', ['books' => $books]);
     }
 
+    function create()
+    {
+        return view('books.create');
+    }
+
+    function add(BookRequest $request)
+    {
+        $book = new Book();
+        $book->name = $request->name;
+        $book->price = $request->price;
+        $book->save();
+        return redirect('')->route('books');
+    }
+
     function edit($id)
     {
         $book = Book::query()->find($id);
         return view('books.edit', ['book' => $book]);
     }
 
-    function save(Request $request)
+    function save(BookRequest $request)
     {
         $book = Book::query()->find($request->id);
-
-        $this->validate($request, [
-            'name' => 'required',
-            'price' => 'numeric',
-
-        ]);
 
         $book->name = $request->name;
         $book->price = $request->price;
