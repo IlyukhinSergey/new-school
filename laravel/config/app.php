@@ -198,6 +198,9 @@ return [
         //laravel - debugbar
         Barryvdh\Debugbar\ServiceProvider::class,
 
+        //IDE-helper
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+
     ],
 
     /*
