@@ -3,10 +3,14 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+
+    use WithoutMiddleware;
+
     /**
      * A basic test example.
      *
@@ -18,4 +22,12 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function testBooks()
+    {
+        $response = $this->get('/books');
+
+        $response->assertSee('Books');
+    }
+
 }
