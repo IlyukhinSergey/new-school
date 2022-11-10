@@ -21,7 +21,7 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
 
-//Проверка подключения 
+//Проверка подключения
 //var_dump($capsule->getConnection()->enableQueryLog()); //лог
 
 //var_dump($capsule->getConnection()->query()->select()->from('users')->get()); //запрос

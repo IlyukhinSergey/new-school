@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\User as UserModel;
+use App\Model\Eloquent\User as UserModel;
 use Base\AbstractController;
 
 class User extends AbstractController

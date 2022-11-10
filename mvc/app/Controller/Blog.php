@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Message;
-use App\Model\User as UserModel;
+use App\Model\Eloquent\User as UserModel;
 use Base\AbstractController;
 
 class Blog extends AbstractController

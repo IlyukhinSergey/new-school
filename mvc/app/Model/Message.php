@@ -16,7 +16,7 @@ class Message extends AbstractModel
 
     private $userId;
 
-    /** @var $user \App\Model\User */
+    /** @var $user \App\Model\Eloquent\User */
     private $user;
 
     private $image;
@@ -131,17 +131,17 @@ class Message extends AbstractModel
     }
 
     /**
-     * @return \App\Model\User
+     * @return \App\Model\Eloquent\User
      */
-    public function getUser(): User
+    public function getUser(): \App\Model\Eloquent\User
     {
         return $this->user;
     }
 
     /**
-     * @param  \App\Model\User  $user
+     * @param  \App\Model\Eloquent\User  $user
      */
-    public function setUser(User $user): void
+    public function setUser(\App\Model\Eloquent\User $user): void
     {
         $this->user = $user;
     }

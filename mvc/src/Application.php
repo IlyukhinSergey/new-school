@@ -3,7 +3,7 @@
 namespace Base;
 
 use App\Controller\User;
-use App\Model\User as UserModel;
+use App\Model\Eloquent\User as UserModel;
 
 class Application
 {
