@@ -26,7 +26,7 @@ class BookController extends Controller
         $book->name = $request->name;
         $book->price = $request->price;
         $book->save();
-        return redirect('')->route('books');
+        return redirect()->route('books');
     }
 
     function edit($id)

@@ -26,7 +26,6 @@ class ExampleTest extends TestCase
     public function testBooks()
     {
         $response = $this->get('/books');
-
         $response->assertSee('Books');
     }
 

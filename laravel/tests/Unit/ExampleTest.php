@@ -3,10 +3,11 @@
 namespace Unit;
 
 use App\Service\Book;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+
     /**
      * A basic test example.
      *
@@ -20,6 +21,8 @@ class ExampleTest extends TestCase
     public function testRandomBook()
     {
         $book = Book::getRandomBook();
-        $this->assertInstanceOf(\App\Models\Book::class, $book, 'нет такого Id');
+        $this->assertInstanceOf(\App\Models\Book::class, $book,
+            'нет такого Id');
     }
+
 }
