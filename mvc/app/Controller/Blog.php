@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\Message;
+use App\Model\Eloquent\Message;
 use App\Model\Eloquent\User as UserModel;
 use Base\AbstractController;
 
@@ -16,21 +16,21 @@ class Blog extends AbstractController
         }
 
         $messages = Message::getList();
-        $users = [];
-        if ($messages) {
-            $userIds = array_map(function (Message $message) {
-                return $message->getUserId();
-            },
-              $messages);
-
-            $users = Usermodel::getByIds($userIds);
-            array_walk($messages, function (Message $message) use ($users) {
-                if (isset($users[$message->getUserId()])) {
-                    $message->setUser($users[$message->getUserId()]);
-                }
-            }
-            );
-        }
+//        $users = [];
+//        if ($messages) {
+//            $userIds = array_map(function (Message $message) {
+//                return $message->getUserId();
+//            },
+//              $messages);
+//
+//            $users = Usermodel::getByIds($userIds);
+//            array_walk($messages, function (Message $message) use ($users) {
+//                if (isset($users[$message->getUserId()])) {
+//                    $message->setUser($users[$message->getUserId()]);
+//                }
+//            }
+//            );
+//        }
 
         return $this->view->renderTwig('Blog/blog.twig', [
           'user' => $this->user,
@@ -57,9 +57,10 @@ class Blog extends AbstractController
 
         if (isset($_FILES['images']['tmp_name'])) {
             $message->loadFile($_FILES['images']['tmp_name']);
+        } else {
         }
 
-        $message->saveText();
+        $message->save();
         $this->redirect('/new-school/mvc/html/blog/index');
     }
 

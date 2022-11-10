@@ -19,9 +19,8 @@ class User extends Model
      */
 
     protected $table = 'users';
-
+    public $timestamps = false;
     protected $fillable = [
-      'id',
       'name',
       'email',
       'password',
@@ -35,7 +34,7 @@ class User extends Model
 
     public static function getById(int $id)
     {
-        return self::query()->find($id)->first();
+        return self::query()->first()->find($id);
     }
 
     public static function getList(int $limit = 10, int $offset = 0)
