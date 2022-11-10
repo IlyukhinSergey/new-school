@@ -8,6 +8,7 @@ use Tests\DuskTestCase;
 
 class ExampleTest extends DuskTestCase
 {
+
     /**
      * A basic browser test example.
      *
@@ -17,7 +18,20 @@ class ExampleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee('Laravel');
+                ->assertSee('Laravel');
         });
     }
+
+    public function testClickExample()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/books')
+                ->click('#add')
+                ->value('#name', 'Buch')
+                ->value('#price', 333)
+                ->press('создать')
+                ->assertSee('books');
+        });
+    }
+
 }

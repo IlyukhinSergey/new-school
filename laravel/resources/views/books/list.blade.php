@@ -1,5 +1,5 @@
 <div>
-    <a href="{{route('books.create')}}">Добавить</a>
+    <a href="{{route('books.create')}}" id="add">Добавить</a>
     <table class="table table-bordered">
         @foreach($books as $book)
             <tr>
