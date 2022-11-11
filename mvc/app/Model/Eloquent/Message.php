@@ -16,27 +16,35 @@ class Message extends Model
 {
 
     protected $table = 'message';
+
     public $timestamps = false;
+
     protected $fillable = [
       'text',
       'user_id',
       'created_at',
-      'image'
+      'image',
     ];
 
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
     public static function deleteMessage(int $idMessage)
     {
+        $image = self::query()
+          ->where('id', '=', $idMessage)
+          ->first();
+        if ($image->image) {
+            self::deleteFile($image->image);
+        }
         return self::destroy($idMessage);
     }
 
     public static function getList(int $limit = 10, int $offset = 0)
     {
-        return self::with('author')
+        return self::with('user')
           ->limit($limit)
           ->offset($offset)
           ->orderBy('id', 'DESC')
@@ -72,6 +80,13 @@ class Message extends Model
         if (file_exists($file)) {
             $this->image = $this->getFileName();
             move_uploaded_file($file, getcwd() . '/images/' . $this->image);
+        }
+    }
+
+    public static function deleteFile($file)
+    {
+        if (file_exists(getcwd() . '/images/' . $file)) {
+            unlink(getcwd() . '/images/' . $file);
         }
     }
 

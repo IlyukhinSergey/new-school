@@ -19,7 +19,9 @@ class User extends Model
      */
 
     protected $table = 'users';
+
     public $timestamps = false;
+
     protected $fillable = [
       'name',
       'email',
@@ -68,9 +70,21 @@ class User extends Model
         return $this->name;
     }
 
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
     }
 
     /**
@@ -79,6 +93,15 @@ class User extends Model
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * @param  mixed  $password
+     */
+    public function setPassword($password): self
+    {
+        $this->password = $password;
+        return $this;
     }
 
     public function isAdmin(): bool
