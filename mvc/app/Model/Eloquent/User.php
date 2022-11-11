@@ -12,10 +12,10 @@ class User extends Model
      *
      * @package App\Model\Eloquent
      *
-     * @property-read $id
-     * @property-read $name
-     * @property-read $email
-     * @property-read $password
+     * @property-write $id
+     * @property-write $name
+     * @property-write $email
+     * @property-write $password
      */
 
     protected $table = 'users';
@@ -36,7 +36,7 @@ class User extends Model
 
     public static function getById(int $id)
     {
-        return self::query()->first()->find($id);
+        return self::query()->find($id);
     }
 
     public static function getList(int $limit = 10, int $offset = 0)

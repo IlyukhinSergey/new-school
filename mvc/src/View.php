@@ -25,6 +25,13 @@ class View
         return $this->data[$name] = $value;
     }
 
+    public function assing2($data)
+    {
+        foreach ($data as $key => $value) {
+            $this->data[$key] = $value;
+        }
+    }
+
     public function render(string $tpl, $data = []): string
     {
         $this->data += $data;
@@ -40,12 +47,12 @@ class View
 
     public function renderTwig(string $tpl, $data = [])
     {
-        if(!$this->twig) {
+        if (!$this->twig) {
             $loader = new FilesystemLoader($this->templatePath);
             $this->twig = new Environment($loader);
-//            $this->twig = new Environment($loader, [
-//              'cache' => './compilation_cache',
-//            ]); //это с кеширование
+            //            $this->twig = new Environment($loader, [
+            //              'cache' => './compilation_cache',
+            //            ]); //это с кеширование
         }
         return $this->twig->render($tpl, $data);
     }

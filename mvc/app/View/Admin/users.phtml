@@ -1,0 +1,44 @@
+<script src="js/jquery.js"></script>
+
+Список пользователей<br><br>
+<?php
+/** @var $messages \App\Model\Eloquent\Message */
+
+/** @var $user \App\Model\Eloquent\User */
+$user = $this->user; ?>
+
+Вы вошли как: <?=$user->getName();?> # <?=$user->getId();?>
+<form action="/new-school/mvc/html/user/logout">
+    <input type="submit" value="Выйти">
+</form>
+
+
+<?php if ($users = $this->users): ?>
+<?php foreach ($users as $user): ?>
+<div>
+    id: <?=$user->getId()?>
+    name: <input type="text" id="user_name_<?=$user->getId()?>" value="<?=htmlspecialchars($user->getName())?>">
+    email: <input type="email" id="user_email_<?=$user->getId()?>" value="<?=htmlspecialchars($user->getEmail())?>">
+    password: <input type="password" id="user_password_<?=$user->getId()?>">
+    <input type="button" onclick="saveUser(<?=$user->getId();?>);" value="Сохранить">
+</div>
+<?php endforeach ?>
+<?php endif ?>
+
+<script>
+    function saveUser(userId)
+    {
+        $.post(
+            '/new-school/mvc/html/admin/users/saveuser',
+            {
+                id: userId,
+                name: $('#user_name_' + userId).val(),
+                email: $('#user_email_' + userId).val(),
+                password: $('#user_password_' + userId).val(),
+            },
+            function (r) {
+                console.log(r);
+            }
+        );
+    }
+</script>

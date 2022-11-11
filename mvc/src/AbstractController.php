@@ -30,6 +30,12 @@ abstract class AbstractController
 
     public function preDispatch()
     {
+        //var_dump($this->user->getName()); die;
+        if($this->user){
+            $this->view->assing2([
+              'user' => $this->user,
+            ]);
+        }
     }
 
 }

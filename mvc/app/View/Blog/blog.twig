@@ -1,4 +1,10 @@
 <h2>Список сообщений</h2>
+
+Вы вошли как: {{ user.getName() }} # {{ user.getId() }}
+<form action="/new-school/mvc/html/user/logout">
+    <input type="submit" value="Выйти">
+</form>
+
 {% for message in messages %}
     {% if message.user %}
         <div> {{ message.user.email }}</div>
@@ -32,9 +38,4 @@
     Загрузить изображение:<br>
     <input type="file" name="images"><br><br>
     <input type="submit" value="Отправить">
-</form>
-
-<br>
-<form action="/new-school/mvc/html/user/logout">
-    <input type="submit" value="Выйти">
 </form>

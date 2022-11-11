@@ -12,7 +12,7 @@ class Admin extends AbstractController
     {
         parent::preDispatch();
         if (!$this->user || !$this->user->isAdmin()) {
-            $this->redirect('/new-school/mvc/html/');
+            $this->redirect('/new-school/mvc/html/user/login');
         }
     }
 

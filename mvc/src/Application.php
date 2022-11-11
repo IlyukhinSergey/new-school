@@ -63,15 +63,19 @@ class Application
 
     private function addRoute()
     {
-//        /** @uses \App\Controller\User::loginAction() */
-//        $this->route->addRoute('/new-school/mvc/html/', User::class,
-//          'login');
+        //        /** @uses \App\Controller\User::loginAction() */
+        //        $this->route->addRoute('/new-school/mvc/html/', User::class,
+        //          'login');
         ///** @uses \App\Controller\User::registerAction() */
         //$this->route->addRoute('/new-school/mvc/html/user/register', \App\Controller\User::class, 'register');
-//        /** @uses \App\Controller\Blog::indexAction() */
-//        $this->route->addRoute('/new-school/mvc/html/blog',
-//          \App\Controller\Blog::class, 'index');
+        //        /** @uses \App\Controller\Blog::indexAction() */
+        //        $this->route->addRoute('/new-school/mvc/html/blog',
+        //          \App\Controller\Blog::class, 'index');
         //$this->route->addRoute('/new-school/mvc/html/blog/index', \App\Controller\Blog::class, 'index');
+        $this->route->addRoute('/new-school/mvc/html/admin/users/index',
+          \App\Controller\Admin\Users::class, 'index');
+        $this->route->addRoute('/new-school/mvc/html/admin/users/saveuser',
+          \App\Controller\Admin\Users::class, 'saveUser');
     }
 
     private function initController()
